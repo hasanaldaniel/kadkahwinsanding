@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- The server fills in the next block from Admin > Content > Link preview. -->
+  <!--share:start-->
+  <title>Jemputan Perkahwinan</title>
+  <meta name="description" content="Kad jemputan perkahwinan digital">
+  <meta property="og:title" content="Jemputan Perkahwinan">
+  <meta property="og:type" content="website">
+  <!--share:end-->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%230f4c3a'/%3E%3Cpath d='M16 6l10 10-10 10L6 16z' fill='none' stroke='%23c9a24b' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/css/card.css">
+</head>
+<body class="locked">
+
+<svg hidden>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4"/><path d="M5 12v9h14v-9M12 8v13M12 8S10.5 3 8 3.5 7 8 12 8zM12 8s1.500-5 4-4.500S17 8 12 8z"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6.500" cy="18" r="2.500"/><circle cx="17.500" cy="16" r="2.500"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8.500 8.500 0 0 1-12.600 7.400L3 21l1.600-5.200A8.500 8.500 0 1 1 21 12z"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+</svg>
+
+<!-- Opening cover -->
+<div id="cover" class="cover" data-style="doors">
+  <div class="cover-panel l"></div>
+  <div class="cover-panel r"></div>
+  <div class="cover-flap"></div>
+  <div class="cover-frame" id="coverFrame" aria-hidden="true"></div>
+  <div class="cover-content">
+    <p class="cover-top" data-t="cover.topText"></p>
+    <h1 class="names"><span data-name="first"></span><em>&amp;</em><span data-name="second"></span></h1>
+    <p class="cover-date" data-date></p>
+    <button id="openBtn" class="seal" type="button"><span data-t="cover.buttonText"></span></button>
+    <p class="cover-sub" data-t="cover.subText"></p>
+  </div>
+</div>
+
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<main class="card" id="card">
+  <div class="songket top" aria-hidden="true"></div>
+
+  <section class="sec hero" id="hero">
+    <div class="hero-frame" id="heroFrame" aria-hidden="true"></div>
+    <div class="arch reveal">
+      <p class="bismillah" lang="ar" dir="rtl" data-t="hero.bismillah"></p>
+      <p class="eyebrow" data-t="hero.title"></p>
+      <h1 class="names"><span data-name="first"></span><em>&amp;</em><span data-name="second"></span></h1>
+      <div class="divider"></div>
+      <p class="hero-date" data-date></p>
+      <p class="hero-venue" data-t="event.venueName"></p>
+      <p class="tagline" data-t="hero.tagline"></p>
+    </div>
+  </section>
+
+  <section class="sec" id="jemputan">
+    <p class="greeting reveal" data-t="invite.greeting"></p>
+    <p class="hosts reveal" data-t="invite.hosts"></p>
+    <p class="lead reveal" data-t="invite.text"></p>
+    <div class="couple reveal">
+      <p class="couple-name" data-fullname="first"></p>
+      <p class="amp">&amp;</p>
+      <p class="couple-name" data-fullname="second"></p>
+    </div>
+    <p class="lead reveal" data-t="invite.closing"></p>
+    <blockquote class="verse reveal" data-t="invite.verse"></blockquote>
+  </section>
+
+  <section class="sec" id="majlis">
+    <h2 class="reveal" data-t="event.title"></h2>
+    <div class="divider reveal"></div>
+    <div class="panel reveal">
+      <svg class="ico big"><use href="#i-calendar"/></svg>
+      <p class="strong" data-date></p>
+      <p class="muted" data-t="event.hijriDate"></p>
+      <p data-t="event.timeText"></p>
+      <hr>
+      <svg class="ico big"><use href="#i-pin"/></svg>
+      <p class="strong" data-t="event.venueName"></p>
+      <p class="muted" data-t="event.address"></p>
+      <div class="btn-row">
+        <a class="btn js-gmaps" target="_blank" rel="noopener" data-t="labels.googleMaps"></a>
+        <a class="btn js-waze" target="_blank" rel="noopener" data-t="labels.waze"></a>
+      </div>
+    </div>
+
+    <div id="countdownWrap" class="reveal" data-show="event.showCountdown">
+      <h3 data-t="event.countdownTitle"></h3>
+      <div class="countdown">
+        <div><b id="cdD">0</b><span data-t="labels.days"></span></div>
+        <div><b id="cdH">0</b><span data-t="labels.hours"></span></div>
+        <div><b id="cdM">0</b><span data-t="labels.minutes"></span></div>
+        <div><b id="cdS">0</b><span data-t="labels.seconds"></span></div>
+      </div>
+    </div>
+
+    <div id="itineraryWrap" class="reveal">
+      <h3 data-t="event.itineraryTitle"></h3>
+      <ol class="timeline" id="itinerary"></ol>
+    </div>
+  </section>
+
+  <section class="sec" id="busana" data-show="attire.enabled">
+    <h2 class="reveal" data-t="attire.title"></h2>
+    <div class="divider reveal"></div>
+    <p class="lead reveal" data-t="attire.description"></p>
+    <div class="swatches reveal" id="swatches"></div>
+    <img class="attire-img reveal" id="attireImg" alt="" hidden>
+    <p class="notes reveal" data-t="attire.notes"></p>
+  </section>
+
+  <section class="sec" id="rsvp" data-show="rsvp.enabled">
+    <h2 class="reveal" data-t="rsvp.title"></h2>
+    <div class="divider reveal"></div>
+    <p class="lead reveal" data-t="rsvp.description"></p>
+
+    <form id="rsvpForm" class="panel form reveal" novalidate>
+      <label><span data-t="labels.name"></span>
+        <input name="name" required maxlength="100" autocomplete="name"></label>
+      <label><span data-t="labels.phone"></span>
+        <input name="phone" type="tel" required maxlength="20" autocomplete="tel" inputmode="tel"></label>
+      <fieldset>
+        <legend data-t="labels.attendance"></legend>
+        <div class="seg">
+          <label><input type="radio" name="attending" value="yes" checked><span data-t="labels.attending"></span></label>
+          <label><input type="radio" name="attending" value="no"><span data-t="labels.notAttending"></span></label>
+        </div>
+      </fieldset>
+      <label id="paxRow"><span data-t="labels.pax"></span>
+        <select name="pax"></select></label>
+      <label><span data-t="labels.wish"></span>
+        <textarea name="wish" maxlength="500" rows="3"></textarea></label>
+      <button class="btn wide" type="submit" data-t="labels.submit"></button>
+    </form>
+
+    <div id="rsvpDone" class="panel reveal" hidden>
+      <h3 data-t="rsvp.successTitle"></h3>
+      <p data-t="rsvp.successText"></p>
+      <p class="mini-title" data-t="labels.saveCalendar"></p>
+      <div class="btn-row">
+        <a class="btn js-gcal" target="_blank" rel="noopener" data-t="labels.googleCalendar"></a>
+        <button class="btn js-ics" type="button" data-t="labels.icsCalendar"></button>
+      </div>
+      <p class="mini-title" data-t="labels.directions"></p>
+      <div class="btn-row">
+        <a class="btn ghost js-gmaps" target="_blank" rel="noopener" data-t="labels.googleMaps"></a>
+        <a class="btn ghost js-waze" target="_blank" rel="noopener" data-t="labels.waze"></a>
+      </div>
+      <button class="link" id="rsvpEdit" type="button" data-t="labels.editRsvp"></button>
+    </div>
+
+    <p id="rsvpClosed" class="panel" hidden data-t="rsvp.closedText"></p>
+  </section>
+
+  <section class="sec" id="ucapan" data-show="wishes.enabled">
+    <h2 class="reveal" data-t="wishes.title"></h2>
+    <div class="divider reveal"></div>
+    <p class="lead reveal" data-t="wishes.description"></p>
+    <div class="wish-box reveal" id="wishBox"></div>
+  </section>
+
+  <section class="sec" id="salamkaut" data-show="moneyGift.enabled">
+    <h2 class="reveal" data-t="moneyGift.title"></h2>
+    <div class="divider reveal"></div>
+    <p class="lead reveal" data-t="moneyGift.description"></p>
+    <div class="panel reveal">
+      <figure id="qrWrap" hidden>
+        <img id="qrImg" class="qr" alt="QR">
+        <figcaption class="muted" data-t="moneyGift.qrCaption"></figcaption>
+      </figure>
+      <dl class="bank">
+        <dt data-t="labels.bank"></dt><dd data-t="moneyGift.bankName"></dd>
+        <dt data-t="labels.accountName"></dt><dd data-t="moneyGift.accountName"></dd>
+        <dt data-t="labels.accountNumber"></dt><dd class="acc" data-t="moneyGift.accountNumber"></dd>
+      </dl>
+      <button class="btn ghost" id="copyAcc" type="button"><svg class="ico"><use href="#i-copy"/></svg><span data-t="labels.copy"></span></button>
+    </div>
+  </section>
+
+  <section class="sec" id="hadiah" data-show="registry.enabled">
+    <h2 class="reveal" data-t="registry.title"></h2>
+    <div class="divider reveal"></div>
+    <p class="lead reveal" data-t="registry.description"></p>
+    <div class="gifts" id="gifts"></div>
+    <div class="pager" id="giftPager" hidden></div>
+  </section>
+
+  <section class="sec thanks" id="terimakasih" data-show="thanks.enabled">
+    <h2 class="reveal" data-t="thanks.title"></h2>
+    <div class="divider reveal"></div>
+    <p class="lead reveal" data-t="thanks.text"></p>
+    <p class="muted reveal" data-t="thanks.signature"></p>
+    <p class="names small reveal"><span data-name="first"></span><em>&amp;</em><span data-name="second"></span></p>
+    <p class="hashtag reveal" data-t="thanks.hashtag"></p>
+    <button class="btn reveal" id="contactBtn" type="button"><svg class="ico"><use href="#i-phone"/></svg><span data-t="thanks.buttonText"></span></button>
+  </section>
+
+  <div class="songket bottom" aria-hidden="true"></div>
+  <footer class="credit" data-show="footer.enabled"><a id="creditLink" data-t="footer.text"></a></footer>
+</main>
+
+<nav class="dock" id="dock" aria-label="Pintasan">
+  <button type="button" data-act="contact"><svg class="ico"><use href="#i-phone"/></svg><span data-t="labels.navContact"></span></button>
+  <button type="button" data-go="majlis"><svg class="ico"><use href="#i-pin"/></svg><span data-t="labels.navLocation"></span></button>
+  <button type="button" data-go="rsvp" data-show="rsvp.enabled"><svg class="ico"><use href="#i-mail"/></svg><span data-t="labels.navRsvp"></span></button>
+  <button type="button" data-act="gift" id="dockGift"><svg class="ico"><use href="#i-gift"/></svg><span data-t="labels.navGift"></span></button>
+  <button type="button" data-act="music" id="dockMusic" hidden><svg class="ico"><use href="#i-music"/></svg><span data-t="labels.navMusic"></span></button>
+</nav>
+
+<div class="modal" id="contactModal" hidden>
+  <div class="sheet" role="dialog" aria-modal="true">
+    <button class="sheet-close" type="button" data-close aria-label="Tutup"><svg class="ico"><use href="#i-close"/></svg></button>
+    <h3 data-t="thanks.contactsTitle"></h3>
+    <div id="contacts" class="contacts"></div>
+  </div>
+</div>
+
+<div class="modal" id="reserveModal" hidden>
+  <div class="sheet" role="dialog" aria-modal="true">
+    <button class="sheet-close" type="button" data-close aria-label="Tutup"><svg class="ico"><use href="#i-close"/></svg></button>
+    <h3 data-t="labels.reserveTitle"></h3>
+    <p class="strong" id="reserveGiftName"></p>
+    <p class="muted" data-t="labels.reserveNote"></p>
+    <form id="reserveForm" class="form" novalidate>
+      <label><span data-t="labels.name"></span><input name="name" required maxlength="100" autocomplete="name"></label>
+      <label><span data-t="labels.phone"></span><input name="phone" type="tel" required maxlength="20" autocomplete="tel" inputmode="tel"></label>
+      <button class="btn wide" type="submit" data-t="labels.confirmReserve"></button>
+    </form>
+  </div>
+</div>
+
+<div class="lang" id="langToggle" role="group" aria-label="Bahasa / Language" hidden>
+  <button type="button" data-lang="ms" aria-pressed="true">BM</button>
+  <button type="button" data-lang="en" aria-pressed="false">EN</button>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+<audio id="music" loop preload="none"></audio>
+
+<script src="/js/shared.js"></script>
+<script src="/js/card.js"></script>
+</body>
+</html>

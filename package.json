@@ -1,0 +1,13 @@
+{
+  "name": "kadkahwinsanding",
+  "version": "1.0.0",
+  "description": "Customisable digital wedding invitation card with RSVP, wishes, gift registry and an admin panel",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
