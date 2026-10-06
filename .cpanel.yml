@@ -1,0 +1,11 @@
+---
+# cPanel Git Version Control deployment.
+#
+# The repository folder is also the Node.js application root, so there are no
+# files to copy. Deploying only has to restart the app so it loads the new
+# code: the Node.js app (Passenger) restarts when tmp/restart.txt is touched.
+# Tasks run from the repository folder.
+deployment:
+  tasks:
+    - /bin/mkdir -p tmp
+    - /bin/touch tmp/restart.txt
