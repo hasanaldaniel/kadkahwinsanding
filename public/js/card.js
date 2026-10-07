@@ -910,7 +910,8 @@
       setInterval(tickCountdown, 1000);
       setInterval(() => document.hidden || refresh(), 60e3);
     })
-    .catch(() => {
+    .catch((err) => {
+      console.error('Card failed to load:', err); // the real cause, for the browser console
       document.body.classList.add('ready');
       $('.cover-top').textContent = 'Kad tidak dapat dimuatkan. Sila muat semula halaman.\nThe card could not be loaded. Please refresh the page.';
       $('#openBtn').hidden = true;
