@@ -934,9 +934,16 @@
     btn.disabled = true;
     $('#status').textContent = 'Saving…';
     try {
+      const config = draft.config;
+      const sent = JSON.stringify(config);
       adopt(await api('PUT', '/api/admin/state', draft));
+      // The fields and sliders on screen write into the object they were built
+      // from. Keep that object, or everything edited after a save would go
+      // into a discarded copy: no preview change and nothing saved.
+      draft.config = config;
       $('#status').textContent = 'Saved';
       if (tab === 'gifts') show('gifts'); // new gifts now have ids
+      if (JSON.stringify(config) !== sent) changed(); // edited while the save was in flight
       sendPreview();
     } catch (err) {
       btn.disabled = false;

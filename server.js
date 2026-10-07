@@ -468,6 +468,31 @@ function serveFile(req, res, root, rel, cache) {
   fs.createReadStream(file, { start, end }).pipe(res);
 }
 
+// Stamp each stylesheet and script address with the file's last-changed time,
+// so browsers and hosting caches fetch the new file right after an update
+// instead of pairing a new page with an old stylesheet.
+function withVersions(html) {
+  return html.replace(/(href|src)="(\/(?:css|js)\/[\w.-]+)"/g, (match, attr, file) => {
+    try {
+      return `${attr}="${file}?v=${Math.round(fs.statSync(path.join(PUBLIC_DIR, file)).mtimeMs).toString(36)}"`;
+    } catch {
+      return match;
+    }
+  });
+}
+
+function sendHtml(req, res, html) {
+  const body = Buffer.from(withVersions(html));
+  res.writeHead(200, {
+    'Content-Type': 'text/html; charset=utf-8',
+    'Content-Length': body.length,
+    'Cache-Control': 'no-cache',
+    'X-Content-Type-Options': 'nosniff',
+    'Referrer-Policy': 'strict-origin-when-cross-origin',
+  });
+  res.end(req.method === 'HEAD' ? undefined : body);
+}
+
 // The card page, with its link-preview tags written from the saved card.
 // Chat apps read these tags without running any script, so they have to be
 // in the HTML itself.
@@ -506,15 +531,7 @@ function serveCard(req, res, lang) {
   const html = fs
     .readFileSync(path.join(PUBLIC_DIR, 'index.html'), 'utf8')
     .replace(/<!--share:start-->[\s\S]*?<!--share:end-->/, () => tags.join('\n  '));
-  const body = Buffer.from(html);
-  res.writeHead(200, {
-    'Content-Type': 'text/html; charset=utf-8',
-    'Content-Length': body.length,
-    'Cache-Control': 'no-cache',
-    'X-Content-Type-Options': 'nosniff',
-    'Referrer-Policy': 'strict-origin-when-cross-origin',
-  });
-  res.end(req.method === 'HEAD' ? undefined : body);
+  sendHtml(req, res, html);
 }
 
 async function handle(req, res) {
@@ -533,7 +550,9 @@ async function handle(req, res) {
     return serveFile(req, res, UPLOAD_DIR, pathname.slice(9), 'public, max-age=31536000, immutable');
   }
   if (pathname === '/' || pathname === '/index.html') return serveCard(req, res, lang === 'en' || lang === 'ms' ? lang : null);
-  if (pathname === '/admin' || pathname === '/admin/') pathname = '/admin.html';
+  if (pathname === '/admin' || pathname === '/admin/' || pathname === '/admin.html') {
+    return sendHtml(req, res, fs.readFileSync(path.join(PUBLIC_DIR, 'admin.html'), 'utf8'));
+  }
   return serveFile(req, res, PUBLIC_DIR, pathname, 'no-cache');
 }
 

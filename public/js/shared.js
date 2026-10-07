@@ -247,7 +247,7 @@ window.KK = (function () {
       items: [
         ['greeting', 'Greeting', [['.greeting', '1.15rem']]],
         ['hosts', 'Hosts (parents) names', [['.hosts', '1.4rem']]],
-        ['hostNote', 'Description under a host name', [['.host-note', '.8rem'], ['.host-between, .host-label', '.72rem']]],
+        ['hostNote', 'Description under a host name', [['.hosts .host-note', '.8rem'], ['.host-between, .host-label', '.72rem']]],
         ['inviteText', 'Invitation and closing text', [['#jemputan .lead', BODY_SIZE]]],
         ['coupleFull', 'Couple full names', [['.couple-name', '1.6rem']]],
         ['ampersand', '"&" between the names', [['.amp', '2.2rem']]],
@@ -288,6 +288,7 @@ window.KK = (function () {
     {
       title: 'RSVP form',
       items: [
+        ['rsvpMessage', 'Thank-you and "RSVP closed" messages', [['#rsvpDone p:not(.mini-title), #rsvpClosed', BODY_SIZE]]],
         ['formLabel', 'Field labels', [['.form label > span, .form legend', '.74rem']]],
         ['formChoice', 'Attendance choices', [['.form .seg span', '.92rem']]],
         // Never below 16px: smaller text makes iPhones zoom in on the field.
@@ -328,7 +329,13 @@ window.KK = (function () {
         ['credit', 'Footer "design by" note', [['.credit', '.72rem']]],
       ],
     },
-    { title: 'Shortcut bar', items: [['dock', 'Shortcut labels', [['.dock button', '.62rem']]]] },
+    {
+      title: 'Shortcut bar and language switch',
+      items: [
+        ['dock', 'Shortcut labels', [['.dock button', '.62rem']]],
+        ['langSwitch', 'BM / EN switch', [['.lang button', '.72rem']]],
+      ],
+    },
   ];
   const FONT_SIZE_MIN = 50;
   const FONT_SIZE_MAX = 250;
