@@ -87,6 +87,8 @@
     frame: `Used when the frame is set to "My own image". Best: a transparent PNG, 900 × 1600 px (9:16), with the decoration around the edges and the middle left empty. It is stretched over the whole welcome section. ${FILE_NOTE}`,
   };
 
+  const HOST_HINT = 'Add one entry per person, or put a couple in one entry (for example "Ahmad bin Abdullah & Siti binti Hassan"). The description shows in small text under that name, for example "Isteri kepada Allahyarham Omar bin Ali".';
+
   const CONTENT = [
     {
       title: 'Languages',
@@ -117,7 +119,13 @@
         F('hero.title', 'Title'),
         F('hero.tagline', 'Tagline'),
         F('invite.greeting', 'Greeting'),
-        F('invite.hosts', 'Hosts (parents)', 'textarea'),
+        F('invite.groomHosts', "Groom's parents / hosts", 'list', { item: [['name', 'Name'], ['note', 'Small description under the name (optional)', 'text', true]], add: "Add a host on the groom's side", hint: HOST_HINT }),
+        F('invite.brideHosts', "Bride's parents / hosts", 'list', { item: [['name', 'Name'], ['note', 'Small description under the name (optional)', 'text', true]], add: "Add a host on the bride's side", hint: HOST_HINT }),
+        F('invite.hostsJoin', 'Symbol between names of the same family', 'text', { hint: 'Usually "&". Leave empty to show the names on separate lines with nothing between them.' }),
+        F('invite.hostsBetween', 'Word between the two families', 'text', { hint: 'For example "bersama". Leave empty for none.' }),
+        F('invite.groomHostsLabel', "Small heading above the groom's side (optional)"),
+        F('invite.brideHostsLabel', "Small heading above the bride's side (optional)"),
+        F('invite.hosts', 'Hosts as one block of text (older style)', 'textarea', { hint: 'Only shown when both host lists above are empty.' }),
         F('invite.text', 'Invitation text', 'textarea'),
         F('invite.closing', 'Closing text', 'textarea'),
         F('invite.verse', 'Verse / doa', 'textarea'),
@@ -609,7 +617,7 @@
       return row(def.label, input, `${auto} BM: ${malay.length > 140 ? malay.slice(0, 140) + '…' : malay || '(empty)'}`);
     }
     const obj = get(draft.config, keys.join('.'));
-    if (def.type === 'list') return h('div', { class: 'field' }, h('span', { class: 'label', text: def.label }), listControl(def, obj[key]));
+    if (def.type === 'list') return h('div', { class: 'field' }, h('span', { class: 'label', text: def.label }), listControl(def, obj[key]), def.hint && editLang === 'ms' && h('small', { text: def.hint }));
     if (def.type === 'theme' || def.type === 'pattern') return h('div', { class: 'field' }, h('span', { class: 'label', text: def.label }), pickerControl(def, obj, key));
     const el = row(def.label, control(def, obj, key), def.hint);
     if (def.path === 'design.coverImage') el.addEventListener('click', () => setTimeout(replayOpening, 200));

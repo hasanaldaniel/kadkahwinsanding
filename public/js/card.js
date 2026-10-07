@@ -116,7 +116,7 @@
       }
     };
     overlay(out, config.en);
-    for (const list of [out.event.itinerary, out.attire.colors, out.thanks.contacts]) {
+    for (const list of [out.invite.groomHosts, out.invite.brideHosts, out.event.itinerary, out.attire.colors, out.thanks.contacts]) {
       for (const item of list) for (const key of Object.keys(item)) if (key.endsWith('En') && item[key]) item[key.slice(0, -2)] = item[key];
     }
     // The date and time are written out in English rather than borrowed from Malay.
@@ -229,6 +229,8 @@
     for (const a of $$('.js-waze')) a.href = wazeUrl();
     for (const a of $$('.js-gcal')) a.href = googleCalendarUrl();
 
+    renderHosts();
+
     const itinerary = cfg.event.itinerary.filter((i) => i.time || i.label);
     $('#itineraryWrap').hidden = !itinerary.length;
     $('#itinerary').replaceChildren(...itinerary.map((i) => h('li', null, h('time', { text: i.time }), h('span', { text: i.label }))));
@@ -257,6 +259,37 @@
     setupMusic();
     FX.set(cfg.design.effect);
     observeReveals();
+  }
+
+  // Hosts: one block per family, each name with an optional small note under it.
+  function renderHosts() {
+    const inv = cfg.invite;
+    const side = (list, label) => {
+      const entries = list.filter((host) => host.name || host.note);
+      if (!entries.length) return null;
+      return h(
+        'div',
+        { class: 'host-side' },
+        label && h('p', { class: 'host-label', text: label }),
+        entries.flatMap((host, i) => [
+          i > 0 && inv.hostsJoin && h('p', { class: 'host-join', text: inv.hostsJoin }),
+          host.name && h('p', { class: 'host-name', text: host.name }),
+          host.note && h('p', { class: 'host-note', text: host.note }),
+        ])
+      );
+    };
+    const groom = side(inv.groomHosts, inv.groomHostsLabel);
+    const bride = side(inv.brideHosts, inv.brideHostsLabel);
+    const sides = (cfg.couple.order === 'bride-first' ? [bride, groom] : [groom, bride]).filter(Boolean);
+    const box = $('#hosts');
+    if (!sides.length) {
+      // a card that still has its hosts written as one block of text
+      box.replaceChildren(h('p', { class: 'host-name', text: inv.hosts }));
+      box.hidden = !inv.hosts;
+      return;
+    }
+    box.hidden = false;
+    box.replaceChildren(...sides.flatMap((el, i) => [i > 0 && inv.hostsBetween && h('p', { class: 'host-between', text: inv.hostsBetween }), el]).filter(Boolean));
   }
 
   // ------------------------------------------------- decorative frames

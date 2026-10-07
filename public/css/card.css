@@ -290,6 +290,12 @@ body:not(.locked) .hero-frame .corner svg { animation: bloom 1.6s cubic-bezier(.
 
 .greeting { font-family: var(--font-heading); font-size: 1.15rem; font-weight: 600; color: var(--ink); }
 .hosts { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 600; line-height: 1.35; margin: 18px 0; }
+.host-name { margin: 0; white-space: pre-line; overflow-wrap: anywhere; }
+.host-note { margin: 2px 0 0; font-family: var(--font-body); font-size: .8rem; font-weight: var(--body-weight); line-height: 1.45; color: var(--muted); white-space: pre-line; overflow-wrap: anywhere; }
+.host-join { margin: 4px 0; font-size: .85em; line-height: 1.2; color: var(--accent-ink); }
+.host-between, .host-label { font-family: var(--font-body); font-size: .72rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.host-between { margin: 14px 0; }
+.host-label { margin: 0 0 4px; }
 .couple { margin: 26px 0; }
 .couple-name { font-family: var(--font-heading); font-size: 1.6rem; font-weight: 600; color: var(--ink); line-height: 1.25; margin: 0; }
 .amp { font-family: var(--font-script); font-size: 2.2rem; color: var(--accent-ink); line-height: 1.3; margin: 0; }

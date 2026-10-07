@@ -80,6 +80,13 @@ function loadDb() {
     gifts: raw ? raw.gifts || [] : defaults.sampleGifts.map((g) => ({ ...g, id: newId(), reservedBy: null })),
     auth: (raw && raw.auth) || {},
   };
+  // Cards saved before hosts were split per family keep showing their one
+  // block of host text, instead of gaining the sample names.
+  const savedInvite = raw && raw.config && raw.config.invite;
+  if (savedInvite && !Array.isArray(savedInvite.groomHosts) && !Array.isArray(savedInvite.brideHosts)) {
+    d.config.invite.groomHosts = [];
+    d.config.invite.brideHosts = [];
+  }
   if (!d.auth.secret) d.auth.secret = crypto.randomBytes(32).toString('hex');
   if (!d.auth.passwordHash) {
     const initial = process.env.ADMIN_PASSWORD || DEFAULT_PASSWORD;
@@ -356,6 +363,7 @@ async function api(req, res, route) {
     const valid = type.audio ? type.check(buf) : type.magic.every((b, i) => buf[i] === b);
     if (!valid) throw new HttpError(400, type.audio ? 'bad_audio' : 'bad_image');
     const name = `${crypto.randomBytes(12).toString('hex')}.${type.ext}`;
+    fs.mkdirSync(UPLOAD_DIR, { recursive: true }); // the folder may have been removed while the app was running
     fs.writeFileSync(path.join(UPLOAD_DIR, name), buf);
     return json(res, 200, { url: `/uploads/${name}` });
   }

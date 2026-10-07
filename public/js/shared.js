@@ -246,7 +246,8 @@ window.KK = (function () {
       title: 'Invitation',
       items: [
         ['greeting', 'Greeting', [['.greeting', '1.15rem']]],
-        ['hosts', 'Hosts (parents)', [['.hosts', '1.4rem']]],
+        ['hosts', 'Hosts (parents) names', [['.hosts', '1.4rem']]],
+        ['hostNote', 'Description under a host name', [['.host-note', '.8rem'], ['.host-between, .host-label', '.72rem']]],
         ['inviteText', 'Invitation and closing text', [['#jemputan .lead', BODY_SIZE]]],
         ['coupleFull', 'Couple full names', [['.couple-name', '1.6rem']]],
         ['ampersand', '"&" between the names', [['.amp', '2.2rem']]],
